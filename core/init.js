@@ -7,9 +7,15 @@ const catchError = require("../middleware/mCatchError")
 class InitManager {
     static initApp(app) {
         InitManager.app = app
+        InitManager.initLoadConfig()                // 装载配置文件
         InitManager.initCatchAllError()             // 捕捉所有错误的中间件
         InitManager.initBodyParser()                // 解析post动词中的body数据
         InitManager.initLoadRoutes()                // 装载目录/app/api下的所有路由
+    }
+
+    static initLoadConfig() {
+        const config = require("./config")
+        global.config = config
     }
 
     static initCatchAllError() {
