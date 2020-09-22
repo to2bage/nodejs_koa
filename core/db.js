@@ -12,7 +12,7 @@ const host = global.config.database.host
 const sequelize = new Sequelize(dbName, username, password, {
     host,
     dialect: "mysql",
-    logging: true,
+    logging: console.log,
     timezone: "+08:00",
     define: {
         timestamps: true,

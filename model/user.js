@@ -11,7 +11,17 @@ User.init({
         autoIncrement: true
     },
     nickname: Sequelize.STRING,
-    password: Sequelize.STRING
+    password: {
+        type: Sequelize.STRING(128)
+    },
+    email: {
+        type: Sequelize.STRING(128),
+        unique: true
+    },
+    openid: {
+        type: Sequelize.STRING(64),
+        unique: true
+    }
 }, {
     sequelize,
     tableName: "user",
