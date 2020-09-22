@@ -8,6 +8,7 @@ class InitManager {
     static initApp(app) {
         InitManager.app = app
         InitManager.initLoadConfig()                // 装载配置文件
+        InitManager.initLoadHTTPException()         // 装载所有的异常
         InitManager.initCatchAllError()             // 捕捉所有错误的中间件
         InitManager.initBodyParser()                // 解析post动词中的body数据
         InitManager.initLoadRoutes()                // 装载目录/app/api下的所有路由
@@ -16,6 +17,11 @@ class InitManager {
     static initLoadConfig() {
         const config = require("./config")
         global.config = config
+    }
+
+    static initLoadHTTPException() {
+        const error = require("../core/http-exception")
+        global.error = error
     }
 
     static initCatchAllError() {

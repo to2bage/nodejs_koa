@@ -1,5 +1,6 @@
 const {LinValidator, Rule} = require("../../core/lin-validator-v2")
 const User = require("../../model/user")
+const {LoginType} = require("../../lib/enum")
 
 // 验证id是否是正整数
 class PositiveIntegerValidator extends LinValidator {
@@ -52,8 +53,35 @@ class RegisterValidator extends LinValidator {
     }
 }
 
+// 验证token是否合适
+class TokenValidator extends LinValidator {
+    constructor() {
+        super()
+        this.account = [
+            new Rule("isLength", "不符合帐号规格", {min:4, max: 32})
+        ]
+        this.secret = [
+            new Rule("isOptional"),     // 可传可不传
+            new Rule("isLength", "密码至少需要6个字符", {min:6, max:32})
+        ]
+    }
+
+    // 验证登录类型
+    validateLoginType(vals) {
+        // 判断客户端是否有传type这个字段
+        if(!vals.body.type) {
+            throw new Error("登录类型是必填项目")
+        }
+        // 判断客户端传递到type类型是否在, LoginType中
+        if(!LoginType.isThisType(vals.body.type)) {
+            throw new Error("type类型错误")
+        }
+    }
+}
+
 
 module.exports = {
     PositiveIntegerValidator,               // 验证id是否是正整数
-    RegisterValidator                       // 验证用户登录的参数
+    RegisterValidator,                      // 验证用户登录的参数
+    TokenValidator                          // 验证token是否合适
 }

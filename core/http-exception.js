@@ -7,6 +7,15 @@ class HTTPException extends Error {
     }
 }
 
+class Success extends HTTPException {
+    constructor(msg, errorCode) {
+        super()
+        this.code = 201
+        this.msg = msg || "ok"
+        this.errorCode = errorCode || 0
+    }
+}
+
 class ParameterException extends HTTPException {
     constructor(msg, errorCode) {
         super()
@@ -16,7 +25,18 @@ class ParameterException extends HTTPException {
     }
 }
 
+class NotFound extends HTTPException {
+    constructor(msg, errorCode) {
+        super()
+        this.code = 404
+        this.msg = msg || "没有找到资源"
+        this.errorCode = errorCode || 10404
+    }
+}
+
 module.exports = {
     HTTPException, 
-    ParameterException
+    Success,
+    ParameterException,
+    NotFound
 }

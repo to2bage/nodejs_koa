@@ -21,9 +21,7 @@ userRouter.post("/register", async(ctx, next) => {
     // 写入数据库
     const u = await User.create(user)
 
-    ctx.body = {
-        "msg": "success"
-    }
+    throw new global.error.Success()
 })
 
 
