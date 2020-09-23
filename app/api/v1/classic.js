@@ -3,6 +3,7 @@ const classicRouter = new Router({
     prefix: "/v1/classic"
 })
 
+const {Auth} = require("../../../middleware/auth")
 const {PositiveIntegerValidator} = require("../../validator/validators")
 
 classicRouter.post("/:id/latest", async (ctx, next) => {
@@ -23,6 +24,10 @@ classicRouter.post("/:id/latest", async (ctx, next) => {
     ctx.body = {
         msg: "目前一切OK啦..."
     }
+})
+
+classicRouter.get("/latest", new Auth().m, async (ctx, next) => {
+    ctx.body = ctx.auth
 })
 
 module.exports = classicRouter

@@ -37,8 +37,17 @@ class NotFound extends HTTPException {
 class AuthFailed extends HTTPException {
     constructor(msg, errorCode) {
         super()
-        this.code = 403
+        this.code = 401
         this.msg = msg || "授权失败"
+        this.errorCode = errorCode || 10401
+    }
+}
+
+class Forbidden extends HTTPException {
+    constructor(msg, errorCode) {
+        super()
+        this.code = 403
+        this.msg = msg || "禁止fangwen"
         this.errorCode = errorCode || 10403
     }
 }
@@ -48,5 +57,6 @@ module.exports = {
     Success,
     ParameterException,
     NotFound,
-    AuthFailed
+    AuthFailed,
+    Forbidden
 }
