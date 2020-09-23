@@ -4,6 +4,7 @@ const {TokenValidator} = require("../../validator/validators")
 const {LoginType} = require("../../../lib/enum")
 const User = require("../../../model/user")
 const {generateToken} = require("../../../core/util")
+const {Auth} = require("../../../middleware/auth")
 
 tokenRouter.post("/", async(ctx, next) => {
     const v = await new TokenValidator().validate(ctx)
@@ -29,7 +30,7 @@ tokenRouter.post("/", async(ctx, next) => {
 // email登录
 async function emailLogin(account, secret) {
     const user = await User.verifyEmailPassword(account, secret)
-    return generateToken(user.id, 2)
+    return generateToken(user.id, Auth.USER)
 }
 
 module.exports = tokenRouter

@@ -26,7 +26,7 @@ classicRouter.post("/:id/latest", async (ctx, next) => {
     }
 })
 
-classicRouter.get("/latest", new Auth().m, async (ctx, next) => {
+classicRouter.get("/latest", new Auth(8).m, async (ctx, next) => {
     ctx.body = ctx.auth
 })
 

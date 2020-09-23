@@ -4,8 +4,14 @@ const jwt = require('jsonwebtoken')
 
 
 class Auth {
-    constructor() {
-
+    /**
+     * 
+     * @param {Number} level 标识API的级别 
+     */
+    constructor(level) {
+        this.level = level || 1     // 标识访问API的级别 
+        Auth.USER = 8               // 普通用户权限scope
+        Auth.ADMIN = 16             // 管理员权限scope
     }
 
     get m() {
@@ -17,7 +23,7 @@ class Auth {
             // ctx.req获取原生nodejs的request
             // ctx.request获取到时koa的request
             const userToken = basicAuth(ctx.req)
-            let decode
+            let decode      // 用户携带的token中的自定义数据
 
             // 判断userToken的合法性
             if(!userToken || !userToken.name) {
@@ -33,6 +39,12 @@ class Auth {
                 } 
                 throw new global.error.Forbidden("token不合法")
             }
+
+            // 判断用户是否有权限scope访问该API
+            if(decode.scope < this.level) {
+                throw new global.error.Forbidden("你没有权限访问该API")
+            }
+
 
             // 将uid, scope放入ctx中
             ctx.auth = {
