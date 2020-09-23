@@ -4,6 +4,7 @@ const sequelize = require("../core/db")
 
 
 class User extends Model {
+
     // 验证用户的email和password
     static async verifyEmailPassword(email, plainPassword) {
         const user = await this.findOne({
@@ -22,6 +23,24 @@ class User extends Model {
         }
         return user
     }
+
+    // 判断openid是否已经存在
+    static async getUserByOpeniD(openid) {
+        const user = await this.findOne({
+            where: {
+                openid: openid
+            }
+        })
+        return user
+    }
+
+    // 根据openid新增用户
+    static async registerByOpenid(openid) {
+        return await User.create({
+            openid: openid
+        })
+    }
+
 }
 
 User.init({

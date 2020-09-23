@@ -5,13 +5,17 @@ const {LoginType} = require("../../../lib/enum")
 const User = require("../../../model/user")
 const {generateToken} = require("../../../core/util")
 const {Auth} = require("../../../middleware/auth")
+const {WXManager} = require("../../services/wx")
 
+// 获取token
 tokenRouter.post("/", async(ctx, next) => {
     const v = await new TokenValidator().validate(ctx)
     let token;
     // 应对不同的登录类型
     switch(v.get("body.type")) {
+        // 小程序的登录处理
         case LoginType.USER_MINI_PROGRAM:
+            token = await WXManager.codeToToken(v.get("body.account"))
             break
         case LoginType.USER_EMAIL:
             const account = v.get("body.account")

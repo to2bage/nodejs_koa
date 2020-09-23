@@ -12,6 +12,7 @@ class Auth {
         this.level = level || 1     // 标识访问API的级别 
         Auth.USER = 8               // 普通用户权限scope
         Auth.ADMIN = 16             // 管理员权限scope
+        Auth.USER_MINA = 32         // 微信小程序权限scope
     }
 
     get m() {
