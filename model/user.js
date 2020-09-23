@@ -13,10 +13,14 @@ class User extends Model {
         })
         // 没有对应的用户, 则抛出异常
         if(!user) {
-            throw new global.error.NotFound()
+            throw new global.error.NotFound("帐号不存在不存在, 请先注册")
         }
-        // 比较密码 6-8 05:00
-
+        // 比较密码
+        const correct = bcrypt.compareSync(plainPassword, user.password)
+        if(!correct) {
+            throw new global.error.AuthFailed("密码错误, 请先注册")
+        }
+        return user
     }
 }
 

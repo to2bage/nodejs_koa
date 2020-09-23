@@ -52,6 +52,6 @@ async function testConnection() {
     }
 }
 
-sequelize.sync({force: true})
+sequelize.sync({force: false})
 
 module.exports = sequelize
