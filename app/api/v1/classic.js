@@ -6,6 +6,7 @@ const classicRouter = new Router({
 const {Auth} = require("../../../middleware/auth")
 const {PositiveIntegerValidator} = require("../../validator/validators")
 
+/*
 classicRouter.post("/:id/latest", async (ctx, next) => {
     // const path = ctx.params
     // const query = ctx.request.query
@@ -25,7 +26,12 @@ classicRouter.post("/:id/latest", async (ctx, next) => {
         msg: "目前一切OK啦..."
     }
 })
+*/
 
+/**
+ * 获取最新一期的期刊
+ * http://bl.7yue.pro/dev/classic.html#id2
+ */
 classicRouter.get("/latest", new Auth(8).m, async (ctx, next) => {
     ctx.body = ctx.auth
 })
