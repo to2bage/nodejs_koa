@@ -20,7 +20,9 @@ class WXManager {
         if(result.status !== 200) {
             throw new global.error.AuthFailed("openId获取失败")
         }
-        if(result.data.errcode !== 0) {
+        // 只有在访问url, 鉴权失败后
+        // 即调用axio.get()失败时, result.data才会有errcode
+        if(result.data.errcode) {
             let errMsg = ""
             switch(result.data.errcode) {
                 case -1:

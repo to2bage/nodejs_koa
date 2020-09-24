@@ -79,9 +79,20 @@ class TokenValidator extends LinValidator {
     }
 }
 
+// 验证
+class NotEmptyValidator extends LinValidator {
+    constructor() {
+        super()
+        this.token = [
+            new Rule("isLength", "不能为空", {min: 1})
+        ]
+    }
+}
+
 
 module.exports = {
     PositiveIntegerValidator,               // 验证id是否是正整数
     RegisterValidator,                      // 验证用户登录的参数
-    TokenValidator                          // 验证token是否合适
+    TokenValidator,                         // 验证token是否合适
+    NotEmptyValidator                       // 验证token是否为空
 }

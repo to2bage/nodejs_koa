@@ -38,6 +38,7 @@ class Auth {
                     // token过期
                     throw new global.error.Forbidden("token已经过期")
                 } 
+                // 不是过期, 就是不合法啰
                 throw new global.error.Forbidden("token不合法")
             }
 
@@ -55,6 +56,16 @@ class Auth {
 
             // 触发后续的中间件
             await next()
+        }
+    }
+
+    // 验证token
+    static verifyToken(token) {
+        try {
+            jwt.verify(token, global.config.security.secretKey)
+            return true
+        } catch (error) {
+            return false
         }
     }
 }

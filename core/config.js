@@ -13,7 +13,7 @@ const config = {
     }, 
     wx: {
         appId: "wxea068f582643bef4",
-        appSecret: "560c67ed69d67bd4df363fa621f64fee",
+        appSecret: "dcd1d13166f0bd62b2db7a4996192b32",
         loginUrl: "https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code"
     }
 }

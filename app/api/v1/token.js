@@ -1,6 +1,6 @@
 const Router = require("koa-router")
-const tokenRouter = new Router({prefix: "/v1/token"})
-const {TokenValidator} = require("../../validator/validators")
+const tokenRouter = new Router({prefix: "/v1/token"})               // 访问路径的前缀
+const {TokenValidator, NotEmptyValidator} = require("../../validator/validators")
 const {LoginType} = require("../../../lib/enum")
 const User = require("../../../model/user")
 const {generateToken} = require("../../../core/util")
@@ -8,7 +8,7 @@ const {Auth} = require("../../../middleware/auth")
 const {WXManager} = require("../../services/wx")
 
 // 获取token
-tokenRouter.post("/", async(ctx, next) => {
+tokenRouter.post("/get", async(ctx, next) => {
     const v = await new TokenValidator().validate(ctx)
     let token;
     // 应对不同的登录类型
@@ -28,6 +28,16 @@ tokenRouter.post("/", async(ctx, next) => {
 
     ctx.body = {
         token
+    }
+})
+
+// 验证token的API
+tokenRouter.post("/verify", async(ctx, next) => {
+    const v = await new NotEmptyValidator().validate(ctx)
+    const result = Auth.verifyToken(v.get("body.token"))
+
+    ctx.body = {
+        result: result
     }
 })
 
