@@ -5,6 +5,7 @@ const classicRouter = new Router({
 
 const {Auth} = require("../../../middleware/auth")
 const {PositiveIntegerValidator} = require("../../validator/validators")
+const {Flow} = require("../../../model/flow")
 
 /*
 classicRouter.post("/:id/latest", async (ctx, next) => {
@@ -33,7 +34,13 @@ classicRouter.post("/:id/latest", async (ctx, next) => {
  * http://bl.7yue.pro/dev/classic.html#id2
  */
 classicRouter.get("/latest", new Auth(8).m, async (ctx, next) => {
-    ctx.body = ctx.auth
+    const flow = await Flow.findOne({
+        order: [
+            ["index", "DESC"]
+        ]
+    }) 
+
+    ctx.body = flow
 })
 
 module.exports = classicRouter
