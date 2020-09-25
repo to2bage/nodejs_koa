@@ -41,11 +41,14 @@ classicRouter.get("/latest", new Auth(8).m, async (ctx, next) => {
         ]
     }) 
 
-    //
+    // 序列化: 将对象  ==>  json字符串
     const art = await Art.getData(flow.art_id, flow.type)
-    art.index = flow.index
+    // sequelize返回的对象, 修改数据应该在obj.dataValues上进行
+    // art.dataValues.index = flow.index
+    // 推荐使用obj.setDataValue()
+    art.setDataValue("index", flow.index)
 
-    ctx.body = art   // 8-8 0900
+    ctx.body = art 
 })
 
 module.exports = classicRouter
