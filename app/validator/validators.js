@@ -90,9 +90,29 @@ class NotEmptyValidator extends LinValidator {
 }
 
 
+function checkType(vals) {
+    // 判断客户端是否有传type这个字段
+    if(!vals.body.type) {
+        throw new Error("登录类型是必填项目")
+    }
+    // 判断客户端传递到type类型是否在, LoginType中
+    if(!LoginType.isThisType(vals.body.type)) {
+        throw new Error("type类型错误")
+    }
+}
+
+class LikeValidator extends PositiveIntegerValidator {
+    constructor() {
+        super()
+        this.validateType = this.checkType
+    }
+}
+
+
 module.exports = {
     PositiveIntegerValidator,               // 验证id是否是正整数
     RegisterValidator,                      // 验证用户登录的参数
     TokenValidator,                         // 验证token是否合适
-    NotEmptyValidator                       // 验证token是否为空
+    NotEmptyValidator,                      // 验证token是否为空
+    LikeValidator                           // 验证点赞操作
 }
