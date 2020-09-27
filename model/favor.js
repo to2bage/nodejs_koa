@@ -26,7 +26,7 @@ class Favor extends Model {
             throw new global.error.LikeError()
         }
 
-        // 执行事务
+        // 执行事务, 必须reutnr
         return sequelize.transaction(async(t) => {
             // 表favor中, 插入记录
             await Favor.create({
@@ -50,9 +50,30 @@ class Favor extends Model {
      * @param {*} uid 
      */
     static async dislike(art_id, type, uid) {
+        const favor = await Favor.findOne({
+            where: {
+                art_id: art_id,
+                type: type,
+                uid: uid
+            }
+        })
+        if(!favor) {
+            throw new global.error.DislikeError("你还没有点过赞")
+        }
 
+        // 开始事务
+        return sequelize.transaction(async t => {
+            // 表favor中, 删除记录
+            await favor.destroy({
+                force: true,           // false是软删除, 用deleted_at来标记; true是真实的从数据库中删除记录
+                transaction: t
+            })
+            // 期刊的字段fav_nums, 加一的操作
+            const art = await Art.getData(art_id, type)                   // Model
+            await art.decrement("fav_nums", {by: 1, transaction: t})            // -1
+        })
     }
-}
+}""
 
 /**
  * 用户点击了点赞, 就增加一条记录
