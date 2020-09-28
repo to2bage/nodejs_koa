@@ -1,3 +1,5 @@
+require("module-alias/register")        // 模块路径别名
+
 const Koa = require('koa')
 const InitManager = require('./core/init')
 

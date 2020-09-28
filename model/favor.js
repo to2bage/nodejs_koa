@@ -73,7 +73,24 @@ class Favor extends Model {
             await art.decrement("fav_nums", {by: 1, transaction: t})            // -1
         })
     }
-}""
+
+    /**
+     * 判断uid用户有没有点赞(art_id, type)对应的movie或music或sentence
+     * @param {*} art_id 
+     * @param {*} type 
+     * @param {*} uid 
+     */
+    static async userLikeIt(art_id, type, uid) {
+        const favor = await Favor.findOne({
+            where: {
+                art_id,
+                type,
+                uid
+            }
+        })
+        return favor ? true : false
+    }
+}
 
 /**
  * 用户点击了点赞, 就增加一条记录
