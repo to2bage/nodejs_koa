@@ -6,7 +6,7 @@ const {
 
 
 class Art {
-    static async getData(art_id, type) {
+    static async getData(art_id, type, useScope=true) {
         let art = null
         const condition = {
             where: {
@@ -14,18 +14,20 @@ class Art {
             }
         }
 
+        const scope = useScope ? "bh":null
+
         switch (type) {
             case 100:
                 // movie
-                art = await Movie.findOne(condition)
+                art = await Movie.scope(scope).findOne(condition)
                 break
             case 200:
                 // music
-                art = await Music.findOne(condition)
+                art = await Music.scope(scope).findOne(condition)
                 break
             case 300:
                 // sentence
-                art = await Sentence.findOne(condition)
+                art = await Sentence.scope(scope).findOne(condition)
                 break
             case 400:
                 // book

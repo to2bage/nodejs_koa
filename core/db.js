@@ -22,6 +22,13 @@ const sequelize = new Sequelize(dbName, username, password, {
         deletedAt: "deleted_at",        // 将字段deletedAt, 更改为deleted_at
         underscored: true,              // 驼峰命名的字段会转化为下划线命名
         freezeTableName: true,          // 使用单数表明
+        scopes: {
+            bh: {
+                attributes: {
+                    exclude: ["created_at", "updated_at", "deleted_at"]
+                }
+            }
+        }
     },
     pool: {
         max: 5,

@@ -38,7 +38,7 @@ class Favor extends Model {
             })
 
             // 期刊的字段fav_nums, 加一的操作
-            const art = await Art.getData(art_id, type)                   // Model
+            const art = await Art.getData(art_id, type, false)                   // Model
             await art.increment("fav_nums", {by: 1, transaction: t})      // +1
         })
     }
@@ -69,7 +69,7 @@ class Favor extends Model {
                 transaction: t
             })
             // 期刊的字段fav_nums, 加一的操作
-            const art = await Art.getData(art_id, type)                   // Model
+            const art = await Art.getData(art_id, type, false)                   // Model
             await art.decrement("fav_nums", {by: 1, transaction: t})            // -1
         })
     }
